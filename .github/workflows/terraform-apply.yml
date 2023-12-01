@@ -9,6 +9,7 @@ jobs:
   terraform:
     name: Terraform
     runs-on: ubuntu-latest
+    environment: default
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
