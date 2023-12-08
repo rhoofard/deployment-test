@@ -26,8 +26,8 @@ jobs:
           retries: 3
           script: |
             github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              owner: rhoofard,
+              repo: deployment-test,
             })
       - run: echo ${{steps.list-issues.outputs.data}}
         if: github.event.deployment_status.state == 'failure'
