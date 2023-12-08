@@ -28,14 +28,23 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
             })
+            var exists
             for (const issue of issues.data) {
                console.log(issue)
                for (const label of issue.labels){
                   console.log(label)
                   if (label.name == 'incident'){
-                     return label.name
+                     exists = true
                   }
                }
+            }
+            if (!exists) {
+               const issue = await github.rest.issues.create({
+                 owner: context.repo.owner,
+                 repo: context.repo.repo,
+                 title: deployment failed,
+                 labels: ["incident"],
+            })
             }
             
       - run: echo ${{steps.list-issues.outputs.result}}
