@@ -19,4 +19,12 @@ jobs:
     steps:
       - name: check if deployment succeeded
         if: github.event.deployment_status.state == 'failure'
-        run: gh issue list --label "incident"
+        uses: octokit/request-action@v2.x
+        id: get_issues
+        with:
+          route: GET /repos/{owner}/{repo}/issues/
+          owner: rhoofard
+          repo: deployment-test
+          labels: incident
+      - run: "echo Issue found: '${{ steps.get_issues.outputs.data }}'"
+        if: github.event.deployment_status.state == 'failure' 
