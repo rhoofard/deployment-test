@@ -32,8 +32,8 @@ jobs:
                console.log(issue)
                for (const label of issue.labels){
                   console.log(label)
-                  if (label.name === 'indident'){
-                     return 'incident'
+                  if (label.name == 'incident'){
+                     return label.name
                   }
                }
             }
