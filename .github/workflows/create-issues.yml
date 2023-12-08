@@ -29,6 +29,6 @@ jobs:
               owner: rhoofard,
               repo: deployment-test,
             })
-      - run: echo ${{steps.list-issues.outputs.data}}
+      - run: echo ${{steps.list-issues.outputs.results}}
         if: github.event.deployment_status.state == 'failure'
 
