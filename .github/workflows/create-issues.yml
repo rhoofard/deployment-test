@@ -23,9 +23,7 @@ jobs:
             })
             var exists
             for (const issue of issues.data) {
-               console.log(issue)
                for (const label of issue.labels){
-                  console.log(label)
                   if (label.name == 'incident'){
                      exists = true
                   }
@@ -41,7 +39,7 @@ jobs:
             }
       - uses: actions/github-script@v7
         if: github.event.deployment_status.state == 'success'
-        id: delete-issues
+        id: close-issues
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -54,9 +52,7 @@ jobs:
             var exists
             var issueNumber
             for (const issue of issues.data) {
-               console.log(issue)
                for (const label of issue.labels){
-                  console.log(label)
                   if (label.name == 'incident'){
                      exists = true
                      issueNumber = issue.number
