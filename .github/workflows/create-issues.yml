@@ -15,5 +15,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - run: echo ${{github.event.deployment_status.state}}
+      - name: check if deployment succeeded
+        if: github.event.deployment_status.state == "failure"
+        run: gh issue list --label "incident"
