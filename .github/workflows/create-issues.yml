@@ -28,6 +28,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
             })
+            console.log(issues)
             return issues.labels
             
       - run: echo ${{steps.list-issues.outputs.result}}
