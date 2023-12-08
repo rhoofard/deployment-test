@@ -28,13 +28,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
             })
-            for (const issue of issues) {
-               for (const label of issues.labels){
-                  if (label === `incident` ) {
-                   return label
-                 }
-               }
-            }
+            return issues
             
       - run: echo ${{steps.list-issues.outputs.result}}
         if: github.event.deployment_status.state == 'failure'
