@@ -23,12 +23,19 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           result-encoding: string
-          retries: 3
           script: |
-            github.rest.issues.listForRepo({
+            const issues = github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
             })
-      - run: echo ${{steps.list-issues.outputs.results}}
+            for (const issue of issues) {
+               for (const label of issues.labels){
+                  if (label === `incident` ) {
+                   return label
+                 }
+               }
+            }
+            
+      - run: echo ${{steps.list-issues.outputs.result}}
         if: github.event.deployment_status.state == 'failure'
 
