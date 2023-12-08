@@ -22,13 +22,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          result-encoding: string
           script: |
             const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
             })
-            console.log(issues)
-            return issues
+            for (const issue of issues.data) {
+               for (const label of issue.labels){
+                  if (label.name === 'indident'){
+                     return label.name
+                  }
+               }
+            }
+            return ""
             
       - run: echo ${{steps.list-issues.outputs.result}}
         if: github.event.deployment_status.state == 'failure'
