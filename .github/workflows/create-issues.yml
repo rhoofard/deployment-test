@@ -20,7 +20,7 @@ jobs:
         uses: octokit/request-action@v2.x
         id: get_issues
         env:
-          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           route: GET /repos/{owner}/{repo}/issues/
           owner: rhoofard
