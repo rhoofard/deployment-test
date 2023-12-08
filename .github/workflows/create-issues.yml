@@ -22,14 +22,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          result-encoding: string
           script: |
-            const issues = github.rest.issues.listForRepo({
+            const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
             })
             console.log(issues)
-            return issues.labels
+            return issues
             
       - run: echo ${{steps.list-issues.outputs.result}}
         if: github.event.deployment_status.state == 'failure'
