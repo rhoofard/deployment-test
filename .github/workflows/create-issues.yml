@@ -12,8 +12,6 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    env:
-       GH_TOKEN: ${{ github.token }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -21,6 +19,8 @@ jobs:
         if: github.event.deployment_status.state == 'failure'
         uses: octokit/request-action@v2.x
         id: get_issues
+        env:
+          GH_TOKEN: ${{ github.token }}
         with:
           route: GET /repos/{owner}/{repo}/issues/
           owner: rhoofard
