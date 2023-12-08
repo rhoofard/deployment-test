@@ -29,13 +29,14 @@ jobs:
               repo: context.repo.repo,
             })
             for (const issue of issues.data) {
+               console.log(issue)
                for (const label of issue.labels){
+                  console.log(label)
                   if (label.name === 'indident'){
-                     return label.name
+                     return 'incident'
                   }
                }
             }
-            return ""
             
       - run: echo ${{steps.list-issues.outputs.result}}
         if: github.event.deployment_status.state == 'failure'
