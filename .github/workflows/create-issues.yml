@@ -42,7 +42,7 @@ jobs:
                const issue = await github.rest.issues.create({
                  owner: context.repo.owner,
                  repo: context.repo.repo,
-                 title: deployment failed,
+                 title: "deployment failed",
                  labels: ["incident"],
             })
             }
