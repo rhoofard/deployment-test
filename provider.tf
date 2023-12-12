@@ -6,6 +6,8 @@ terraform {
     }
   }
 
+
+  # Update this block with the location of your terraform state file
   backend "azurerm" {
     resource_group_name  = "ryanh-workflow-test"
     storage_account_name = "ryanhterraform"
