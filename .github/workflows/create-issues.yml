@@ -2,6 +2,7 @@ name: create-issue
 
 on:
    deployment_status:
+   
 
 jobs:
   build:
