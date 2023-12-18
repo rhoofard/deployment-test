@@ -4,7 +4,6 @@ on:
   workflow_run:
     workflows: [Terraform plan and apply]
     types: [completed]
-
 jobs:
   otel-export-trace:
     name: OpenTelemetry Export Trace
