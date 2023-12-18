@@ -13,7 +13,7 @@ jobs:
       - name: Export Workflow Trace
         uses: inception-health/otel-export-trace-action@latest
         with:
-          otlpEndpoint: ryanhliatrio.grafana.net
+          otlpEndpoint: https://tempo-prod-15-prod-us-west-0.grafana.net/tempo
           otlpHeaders: ${{ secrets.OTLP_HEADERS }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           runId: ${{ github.event.workflow_run.id }}
