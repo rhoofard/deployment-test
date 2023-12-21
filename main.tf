@@ -8,3 +8,4 @@ resource "azurerm_public_ip" "example" {
     Owner = "ryanh"
   }
 }
+
