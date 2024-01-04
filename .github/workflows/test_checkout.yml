@@ -28,9 +28,11 @@ jobs:
           fetch-depth: 1
           sparse-checkout: |
             dummy2
+          path: main
       - name: Checkout tools repo
         uses: actions/checkout@v4
         with:
           repository: rhoofard/project-migration
+          path: project-migration
           
       - run: ls -al
