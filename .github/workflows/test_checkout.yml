@@ -15,32 +15,6 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build2:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
-          sparse-checkout: |
-            dummy2
-          path: main
-      - name: Checkout tools repo
-        uses: actions/checkout@v4
-        with:
-          repository: rhoofard/project-migration
-          path: project-migration
-          
-      - run: ls -al
-
-      - run: |
-          for file in main/*; do
-              echo "$(basename "$file")"
-          done
           
   find-jobs:
     name: Find Jobs
@@ -50,11 +24,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 1
           path: main
-        
-
-      - run: |
+          
+      - name: get files
+        run: |
             cd main
             folders=$(tree -J -d -L 1 | jq -c '.[0].contents | map(.name)')
             echo $folders
@@ -71,6 +44,8 @@ jobs:
       matrix:
         folder: ${{ fromJson(needs.find-jobs.outputs.folders )}}
     steps:
+      - name: check structure
+        run: ls -al
       - name: do something
         run: echo ${{ matrix.folder }}
           
