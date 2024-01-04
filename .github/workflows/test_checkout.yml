@@ -36,3 +36,8 @@ jobs:
           path: project-migration
           
       - run: ls -al
+
+      - run: |
+          for file in main/*; do
+              echo "$(basename "$file")"
+          done
