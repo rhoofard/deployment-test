@@ -55,7 +55,7 @@ jobs:
         
 
       - id: jobs
-        uses: philips-labs/list-folders-action@v1
+        uses: philips-labs/list-folders-action@v2
         with:
           path: ./main
 
