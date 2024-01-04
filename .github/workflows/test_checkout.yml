@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  build2:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -42,69 +42,35 @@ jobs:
               echo "$(basename "$file")"
           done
           
-  generate-matrix:
-    name: Generate matrix for build
+  find-jobs:
+    name: Find Jobs
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      folders: ${{ steps.jobs.outputs.folders }}
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: rhoofard/project-migration
-          path: project-migration
           fetch-depth: 1
-          
-      - name: Set matrix for build
-        id: set-matrix
-        run: |
-          # See https://stackoverflow.com/a/62953566/11948346
-          JSON="{\"include\":["
+          path: main
+        
 
-          # Loop by lines
-          while read path; do
-            # Set $directory to substring before /
-            directory="$( echo $path | cut -d'/' -f1 -s )"
+      - id: jobs
+        uses: philips-labs/list-folders-action@v1
+        with:
+          path: ./main
 
-            if [ -z "$directory" ]; then
-              continue # Exclude root directory
-            elif [ "$directory" == docs ]; then
-              continue # Exclude docs directory
-            elif [ "$path" == *.rst ]; then
-              continue # Exclude *.rst files
-            fi
-
-            # Set $os. "ubuntu-latest" by default. if directory starts with windows, then "windows-latest"
-            os="ubuntu-latest"
-            if [ "$directory" == windows* ]; then
-              os="windows-latest"
-            fi
-
-            # Add build to the matrix only if it is not already included
-            JSONline="{\"directory\": \"$directory\"},"
-            if [[ "$JSON" != *"$JSONline"* ]]; then
-              JSON="$JSON$JSONline"
-            fi
-          done
-
-          # Remove last "," and add closing brackets
-          if [[ $JSON == *, ]]; then
-            JSON="${JSON%?}"
-          fi
-          JSON="$JSON]}"
-          echo $JSON
-
-          # Set output
-          echo "matrix=$( echo "$JSON" )" >> $GITHUB_OUTPUT
-
-  build2:
-    name: Build "${{ matrix.directory }}"
-    needs: generate-matrix
-    strategy:
-      matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
+  matrix:
+    name: Matrix Jobs
+    needs: [find-jobs]
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ matrix.folder }}
+    strategy:
+      matrix:
+        folder: ${{ fromJson(needs.find-jobs.outputs.folders )}}
     steps:
-      - uses: actions/checkout@v2
-      - name: Build
-        run: |
-          cd ${{ matrix.directory }}
-          echo "${{ matrix.directory }}"
+      - name: do something
+        run: echo ${{ matrix.folder }}
+          
+     
