@@ -9,6 +9,10 @@ jobs:
     name: Terraform
     runs-on: ubuntu-latest
     environment: default
+    permissions:
+        id-token: write
+        issues: write
+        deployments: write
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
