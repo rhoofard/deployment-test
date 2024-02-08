@@ -4,6 +4,7 @@ resource "azurerm_public_ip" "example" {
   location            = "East US"
   allocation_method   = "Static"
 
+
   tags = {
     Owner = "ryanh"
   }
